@@ -32,7 +32,7 @@ services:
       POSTGRES_USER: "dbuser"
       POSTGRES_DB: "stats-db"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test: ["CMD", "curl", "-f", "http://localhost:9090/actuator/health"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -68,7 +68,7 @@ services:
       POSTGRES_USER: "ewmuser"
       POSTGRES_DB: "ewm-db"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 5s
       timeout: 5s
       retries: 20
