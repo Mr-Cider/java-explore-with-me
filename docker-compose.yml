@@ -1,14 +1,75 @@
 services:
-  stats-server:
+  stat-server:
+    build:
+      context: ./stat/stat-server
+    image: stat-server
+    container_name: stat-server
     ports:
       - "9090:9090"
+    depends_on:
+      stats-db:
+        condition: service_healthy
+    environment:
+      SERVER_PORT: 9090
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://stats-db:5432/stats-db"
+      SPRING_DATASOURCE_USERNAME: "dbuser"
+      SPRING_DATASOURCE_PASSWORD: "12345"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/actuator/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+      start_period: 20s
 
   stats-db:
     image: postgres:16.1
+    container_name: stats-db
+    ports:
+      - "6541:5432"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "md5"
+      POSTGRES_PASSWORD: "12345"
+      POSTGRES_USER: "dbuser"
+      POSTGRES_DB: "stats-db"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
 
   ewm-service:
+    build:
+      context: ./ewm-service
+    image: ewm-service
+    container_name: ewm-service
     ports:
       - "8080:8080"
+    depends_on:
+      ewm-db:
+        condition: service_healthy
+      stat-server:
+        condition: service_healthy
+    environment:
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://ewm-db:5432/ewm-db"
+      SPRING_DATASOURCE_USERNAME: "ewmuser"
+      SPRING_DATASOURCE_PASSWORD: "54321"
+      STATS_SERVER_URL: "http://stats-server:9090"
 
   ewm-db:
     image: postgres:16.1
+    container_name: ewm-db
+    ports:
+      - "6542:5432"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "md5"
+      POSTGRES_PASSWORD: "54321"
+      POSTGRES_USER: "ewmuser"
+      POSTGRES_DB: "ewm-db"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
