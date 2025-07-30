@@ -7,9 +7,9 @@ import ru.practicum.stat.model.EndpointHit;
 @org.mapstruct.Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface HitMapper {
 
-       HitDto toHitDto (EndpointHit hit);
+       HitDto toHitDto(EndpointHit hit);
 
-       EndpointHit toHit (HitDto hitDto);
+       EndpointHit toHit(HitDto hitDto);
 
 }
 
