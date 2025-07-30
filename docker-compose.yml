@@ -15,11 +15,11 @@ services:
       SPRING_DATASOURCE_USERNAME: "dbuser"
       SPRING_DATASOURCE_PASSWORD: "12345"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9090/actuator/health"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 3s
-      retries: 15
-      start_period: 20s
+      retries: 20
+      start_period: "20s"
 
   stats-db:
     image: postgres:16.1
