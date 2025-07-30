@@ -15,7 +15,7 @@
 
     <modules>
         <module>stat-dto</module>
-        <module>stat-server</module>
+        <module>stats-server</module>
         <module>stat-client</module>
     </modules>
 </project>

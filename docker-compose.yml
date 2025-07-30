@@ -1,9 +1,9 @@
 services:
-  stat-server:
+  stats-server:
     build:
-      context: ./stat/stat-server
-    image: stat-server
-    container_name: stat-server
+      context: ./stat/stats-server
+    image: stats-server
+    container_name: stats-server
     ports:
       - "9090:9090"
     depends_on:
@@ -48,7 +48,7 @@ services:
     depends_on:
       ewm-db:
         condition: service_healthy
-      stat-server:
+      stats-server:
         condition: service_healthy
     environment:
       SERVER_PORT: 8080
