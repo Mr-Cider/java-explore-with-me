@@ -49,9 +49,11 @@ public interface EventMapper {
     @Mapping(target = "location", source = "event", qualifiedByName = "mapLatLonToLocationDto")
     @Mapping(target = "state", source = "state")
     @Mapping(target = "confirmedRequests", ignore = true)
+    @Mapping(target = "views", source = "views")
     EventFullDto toEventFullDto(Event event);
 
     @Mapping(target = "confirmedRequests", ignore = true)
+    @Mapping(target = "views", source = "views")
     EventShortDto toEventShortDto(Event event);
 
     @Named("mapUserStateActionToState")

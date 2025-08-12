@@ -12,8 +12,7 @@ import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.UpdateEventAdminRequest;
 import ru.practicum.events.dto.paramsDto.AdminEventsParamDto;
 import ru.practicum.events.model.State;
-import ru.practicum.events.service.interfaces.AdminEventService;
-import ru.practicum.events.service.interfaces.EventService;
+import ru.practicum.events.service.EventService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,12 +38,16 @@ public class AdminEventController {
         AdminEventsParamDto adminEventsParamDto = new AdminEventsParamDto(
                 users, states, categories, rangeStart, rangeEnd, from, size
         );
-        return eventService.getEvents(adminEventsParamDto);
+        log.debug("GET /admin/events");
+        log.info("Admin: Поиск событий");
+        return eventService.getAdminEvents(adminEventsParamDto);
     }
 
     @PatchMapping("/{eventId}")
     public EventFullDto updateEvent(@PathVariable Long eventId,
                                     @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
-        return eventService.updateEvent(eventId, updateEventAdminRequest);
+        log.debug("PATCH /admin/events/{}", eventId);
+        log.info("Admin: Редактирование данных события и его статуса (отклонение/публикация).");
+        return eventService.updateAdminEvent(eventId, updateEventAdminRequest);
     }
 }

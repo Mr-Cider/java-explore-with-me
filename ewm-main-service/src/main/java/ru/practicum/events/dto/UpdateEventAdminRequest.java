@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
-import ru.practicum.category.dto.CategoryDto;
 import ru.practicum.exception.EventDateNotToEarly;
 
 import java.time.LocalDateTime;

@@ -9,17 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
+import ru.practicum.StatsClient;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
 import ru.practicum.events.dto.paramsDto.PublicEventsParamDto;
-import ru.practicum.events.service.interfaces.EventService;
-import ru.practicum.events.service.interfaces.PublicEventService;
+import ru.practicum.events.service.EventService;
+import ru.practicum.stat.HitDto;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/events")
@@ -29,7 +27,7 @@ import java.util.Map;
 public class PublicEventController {
 
     private final EventService eventService;
-    private final WebClient webClient;
+    private final StatsClient statsClient;
 
     @GetMapping
     public List<EventShortDto> getEvents(@RequestParam(required = false) String text,
@@ -44,6 +42,8 @@ public class PublicEventController {
                                          @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                          @Positive @RequestParam(defaultValue = "10") Integer size,
                                          HttpServletRequest httpServletRequest) {
+        log.debug("GET /events");
+        log.info("Public: Получение событий с возможностью фильтрации");
         sendStatsHit(httpServletRequest);
         PublicEventsParamDto publicEventsParamDto = PublicEventsParamDto.builder()
                 .text(text)
@@ -56,30 +56,28 @@ public class PublicEventController {
                 .from(from)
                 .size(size)
                 .build();
-        return eventService.getEvents(publicEventsParamDto);
+        return eventService.getPublicEvents(publicEventsParamDto);
     }
 
     @GetMapping("/{eventId}")
     public EventFullDto getEvent(@PathVariable Long eventId, HttpServletRequest httpServletRequest) {
+        log.debug("GET /events/{}", eventId);
+        log.info("Public: Получение подробной информации об опубликованном событии по его идентификатору");
         sendStatsHit(httpServletRequest);
         return eventService.getEvent(eventId);
     }
 
     private void sendStatsHit(HttpServletRequest request) {
-        webClient.post()
-                .uri("/hit")
-                .bodyValue(Map.of(
-                                "app", "ewm-main-service",
-                                "uri", request.getRequestURI(),
-                                "ip", request.getRemoteAddr(),
-                                "timestamp", LocalDateTime.now()
-                                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                        ))
-                        .retrieve()
-                        .toBodilessEntity()
-                        .subscribe(
-                                response -> log.info("Статистика отправлена"),
-                                error -> log.error("Ошибка отправки статистики", error)
-                        );
+        statsClient.saveHit(
+                HitDto.builder()
+                        .app("ewm-main-service")
+                        .uri(request.getRequestURI())
+                        .ip(request.getRemoteAddr())
+                        .timestamp(LocalDateTime.now())
+                        .build()
+        ).subscribe(
+                response -> log.info("Статистика отправлена"),
+                error -> log.error("Ошибка отправки статистики", error)
+        );
     }
 }

@@ -12,16 +12,14 @@ import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exception.BadRequestException;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.NotFoundException;
+import ru.practicum.requests.dto.ParticipationRequestDto;
 import ru.practicum.requests.mapper.RequestMapper;
 import ru.practicum.requests.model.Request;
 import ru.practicum.requests.repository.RequestRepository;
-import ru.practicum.requests.dto.ParticipationRequestDto;
 import ru.practicum.users.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,7 +38,6 @@ public class RequestServiceImpl implements RequestService {
         return requests.stream().map(requestMapper::toParticipationRequestDto).toList();
     }
 
-    @Transactional
     @Override
     public ParticipationRequestDto createRequest(Long userId, Long eventId) {
         Event event = eventRepository.findEventWithInitiatorById(eventId)
@@ -49,14 +46,16 @@ public class RequestServiceImpl implements RequestService {
         if (!userRepository.existsById(userId)) {
             throw new NotFoundException("User with id=" + userId + " was not found");
         }
-
         validateRequest(userId, event);
-
         Request request = new Request();
         request.setCreated(LocalDateTime.now());
         request.setEvent(event);
         request.setRequester(userRepository.getReferenceById(userId));
-        request.setStatus(event.getRequestModeration() ? Status.PENDING : Status.CONFIRMED);
+        if (event.getParticipantLimit() == 0 || !event.getRequestModeration()) {
+            request.setStatus(Status.CONFIRMED);
+        } else {
+            request.setStatus(Status.PENDING);
+        }
         return requestMapper.toParticipationRequestDto(requestRepository.save(request));
     }
 

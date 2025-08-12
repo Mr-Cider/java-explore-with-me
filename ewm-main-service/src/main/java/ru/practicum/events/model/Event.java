@@ -6,9 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.practicum.category.model.Category;
+import ru.practicum.compilation.model.Compilation;
 import ru.practicum.users.model.User;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "events")
@@ -60,4 +62,7 @@ public class Event {
     private String title;
 
     private Long views;
+
+    @ManyToMany(mappedBy = "events")
+    private Set<Compilation> compilations;
 }
