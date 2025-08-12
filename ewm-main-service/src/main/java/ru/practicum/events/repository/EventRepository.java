@@ -63,9 +63,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                           @Param("onlyAvailable") Boolean onlyAvailable,
                           @Param("state") State state,
                           Pageable pageable);
-
-    @Modifying
-    @Query("UPDATE Event e SET e.views = e.views + 1 WHERE e.id IN :eventIds")
-    void incrementViewsForEvents(@Param("eventIds") List<Long> eventIds);
 }
 
