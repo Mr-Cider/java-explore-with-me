@@ -3,6 +3,7 @@ package ru.practicum.stat.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.stat.HitDto;
@@ -21,6 +22,7 @@ public class StatsController {
     private final StatsService statsService;
 
     @PostMapping("/hit")
+    @ResponseStatus(HttpStatus.CREATED)
     public HitDto saveHit(@Valid @RequestBody HitDto hitDto) {
         return statsService.saveHit(hitDto);
     }
@@ -31,7 +33,10 @@ public class StatsController {
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
             @RequestParam(required = false) List<String> uris,
             @RequestParam(defaultValue = "false") boolean unique) {
-    try {
+        if (start.isAfter(end)) {
+            return ResponseEntity.badRequest().build();
+        }
+
         ViewStatsRequest request = ViewStatsRequest.builder()
                 .start(start)
                 .end(end)
@@ -40,8 +45,5 @@ public class StatsController {
                 .build();
 
         return ResponseEntity.ok(statsService.getStats(request));
-    } catch (Exception e) {
-        return ResponseEntity.internalServerError().build();
-    }
     }
 }

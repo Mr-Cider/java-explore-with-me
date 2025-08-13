@@ -18,7 +18,7 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
     AND (:uris IS NULL OR h.uri IN :uris)
     GROUP BY h.app, h.uri
     ORDER BY hits DESC
-""")
+    """)
     List<Object[]> getUniqueHits(@Param("start") LocalDateTime start,
                                  @Param("end") LocalDateTime end,
                                  @Param("uris") Set<String> uris);
@@ -30,7 +30,7 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
     AND (:uris IS NULL OR h.uri IN :uris)
     GROUP BY h.app, h.uri
     ORDER BY hits DESC
-""")
+    """)
     List<Object[]> getAllHits(@Param("start") LocalDateTime start,
                               @Param("end") LocalDateTime end,
                               @Param("uris") Set<String> uris);
