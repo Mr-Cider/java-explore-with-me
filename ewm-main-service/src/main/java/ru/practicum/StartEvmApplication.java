@@ -8,5 +8,4 @@ public class StartEvmApplication {
     public static void main(String[] args) {
         SpringApplication.run(StartEvmApplication.class, args);
     }
-
 }

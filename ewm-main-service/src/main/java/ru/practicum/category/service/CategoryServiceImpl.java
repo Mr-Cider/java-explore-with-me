@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.category.dto.CategoryDto;
 import ru.practicum.category.dto.NewCategoryDto;
 import ru.practicum.category.mapper.CategoryMapper;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
@@ -27,6 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;
 
+    @Transactional
     @Override
     public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
         checkCategoryName(newCategoryDto.getName());
@@ -34,6 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.toCategoryDto(category);
     }
 
+    @Transactional
     @Override
     public void deleteCategory(Long categoryId) {
         Category category = getCategoryOrThrow(categoryId);
@@ -41,6 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(categoryId);
     }
 
+    @Transactional
     @Override
     public CategoryDto updateCategory(Long categoryId, NewCategoryDto newCategoryDto) {
         Category category = getCategoryOrThrow(categoryId);

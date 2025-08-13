@@ -23,6 +23,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "TEXT", length = 2000)
     private String annotation;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,6 +33,7 @@ public class Event {
     @Column(name = "created_on")
     private LocalDateTime createdOn;
 
+    @Column(columnDefinition = "TEXT", length = 7000)
     private String description;
 
     @Column(name = "event_date")

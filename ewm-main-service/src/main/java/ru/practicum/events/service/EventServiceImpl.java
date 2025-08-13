@@ -43,12 +43,17 @@ public class EventServiceImpl implements EventService {
     public List<EventFullDto> getAdminEvents(AdminEventsParamDto paramDto) {
         int pageNumber = paramDto.getFrom() / paramDto.getSize();
 
+        LocalDateTime rangeStart = paramDto.getRangeStart() != null ?
+                paramDto.getRangeStart() : LocalDateTime.of(1970, 1, 1, 0, 0);
+        LocalDateTime rangeEnd = paramDto.getRangeEnd() != null ?
+                paramDto.getRangeEnd() : LocalDateTime.of(2100, 1, 1, 0, 0);
+
         Page<Object[]> results = eventRepository.findAdminEvents(
                 paramDto.getUsers(),
                 paramDto.getStates(),
                 paramDto.getCategories(),
-                paramDto.getRangeStart(),
-                paramDto.getRangeEnd(),
+                rangeStart,
+                rangeEnd,
                 PageRequest.of(pageNumber, paramDto.getSize()));
 
         return results.getContent().stream()
@@ -161,17 +166,13 @@ public class EventServiceImpl implements EventService {
     }
 
     private void checkDate(PublicEventsParamDto publicEventsParamDto) {
-        if (publicEventsParamDto.getRangeStart() == null && publicEventsParamDto.getRangeEnd() == null) {
-            return;
-        }
         if (publicEventsParamDto.getRangeStart() == null) {
             publicEventsParamDto.setRangeStart(LocalDateTime.now());
         }
         if (publicEventsParamDto.getRangeEnd() == null) {
-            publicEventsParamDto.setRangeEnd(null);
+            publicEventsParamDto.setRangeEnd(LocalDateTime.of(9999, 12, 31, 23, 59, 59));
         }
-        if (publicEventsParamDto.getRangeStart() != null && publicEventsParamDto.getRangeEnd() != null
-                && publicEventsParamDto.getRangeStart().isAfter(publicEventsParamDto.getRangeEnd())) {
+        if (publicEventsParamDto.getRangeStart().isAfter(publicEventsParamDto.getRangeEnd())) {
             throw new BadRequestException("The end date should be after the start date.");
         }
     }

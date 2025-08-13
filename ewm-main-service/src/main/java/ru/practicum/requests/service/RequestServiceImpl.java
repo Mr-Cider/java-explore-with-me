@@ -38,6 +38,7 @@ public class RequestServiceImpl implements RequestService {
         return requests.stream().map(requestMapper::toParticipationRequestDto).toList();
     }
 
+    @Transactional
     @Override
     public ParticipationRequestDto createRequest(Long userId, Long eventId) {
         Event event = eventRepository.findEventWithInitiatorById(eventId)
