@@ -24,9 +24,9 @@ public class AdminEventsParamDto {
 
         LocalDateTime rangeEnd;
 
-        Integer from;
+        int from;
 
-        Integer size;
+        int size;
 
 
 }

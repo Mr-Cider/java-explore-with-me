@@ -64,7 +64,4 @@ public class Event {
     private String title;
 
     private Long views;
-
-    @ManyToMany(mappedBy = "events")
-    private Set<Compilation> compilations;
 }

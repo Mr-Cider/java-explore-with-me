@@ -53,12 +53,11 @@ public class CategoryServiceImpl implements CategoryService {
             checkCategoryName(newCategoryDto.getName());
         }
         category.setName(newCategoryDto.getName());
-        Category updatedCategory = categoryRepository.save(categoryRepository.save(category));
-        return categoryMapper.toCategoryDto(updatedCategory);
+        return categoryMapper.toCategoryDto(category);
     }
 
     @Override
-    public List<CategoryDto> getCategories(Integer from, Integer size) {
+    public List<CategoryDto> getCategories(int from, int size) {
         int pageNumber = from / size;
         Page<Category> categoryPage = categoryRepository.findAll(PageRequest.of(pageNumber, size));
         return categoryPage.map(categoryMapper::toCategoryDto).getContent();

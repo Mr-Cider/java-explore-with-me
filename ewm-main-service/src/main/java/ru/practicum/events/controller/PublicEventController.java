@@ -39,8 +39,8 @@ public class PublicEventController {
                                          @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
                                          @RequestParam(required = false, defaultValue = "false") Boolean onlyAvailable,
                                          @RequestParam(defaultValue = "EVENT_DATE") String sort,
-                                         @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
-                                         @Positive @RequestParam(defaultValue = "10") Integer size,
+                                         @PositiveOrZero @RequestParam(defaultValue = "0") int from,
+                                         @Positive @RequestParam(defaultValue = "10") int size,
                                          HttpServletRequest httpServletRequest) {
         log.debug("GET /events");
         log.info("Public: Получение событий с возможностью фильтрации");

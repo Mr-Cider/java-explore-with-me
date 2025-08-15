@@ -55,7 +55,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
-    public List<CompilationDto> getCompilations(Boolean pinned, Integer from, Integer size) {
+    public List<CompilationDto> getCompilations(Boolean pinned, int from, int size) {
         int pageNumber = from / size;
         Page<Compilation> results = compilationRepository.getCompilations(
                 pinned,

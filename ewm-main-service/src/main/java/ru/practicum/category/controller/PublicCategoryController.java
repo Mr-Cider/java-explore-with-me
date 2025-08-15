@@ -21,8 +21,8 @@ public class PublicCategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public List<CategoryDto> getCategories(@PositiveOrZero @RequestParam (defaultValue = "0") Integer from,
-                                           @Positive @RequestParam (defaultValue = "10") Integer size) {
+    public List<CategoryDto> getCategories(@PositiveOrZero @RequestParam (defaultValue = "0") int from,
+                                           @Positive @RequestParam (defaultValue = "10") int size) {
         log.debug("GET /categories");
         log.info("Public: Получение категорий");
         return categoryService.getCategories(from, size);

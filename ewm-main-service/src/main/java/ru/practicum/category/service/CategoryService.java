@@ -13,7 +13,7 @@ public interface CategoryService {
 
     CategoryDto updateCategory(Long categoryId, NewCategoryDto newCategoryDto);
 
-    List<CategoryDto> getCategories(Integer from, Integer size);
+    List<CategoryDto> getCategories(int from, int size);
 
     CategoryDto getCategoryById(Long categoryId);
 }

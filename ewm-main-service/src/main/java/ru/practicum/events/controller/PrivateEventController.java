@@ -28,8 +28,8 @@ public class PrivateEventController {
 
     @GetMapping
     public List<EventShortDto> getEvents(@PathVariable Long userId,
-                                         @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
-                                         @Positive @RequestParam(defaultValue = "10") Integer size) {
+                                         @PositiveOrZero @RequestParam(defaultValue = "0") int from,
+                                         @Positive @RequestParam(defaultValue = "10") int size) {
         log.debug("GET /users/{userId}/events");
         log.info("Private: Получение событий, добавленных текущим пользователем");
         return eventService.getPrivateEvents(userId, from, size);

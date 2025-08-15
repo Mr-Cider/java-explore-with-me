@@ -32,8 +32,8 @@ public class AdminEventController {
                                         @RequestParam (required = false) List<Long> categories,
                                         @RequestParam (required = false)  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
                                         @RequestParam (required = false)  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
-                                        @PositiveOrZero @RequestParam (defaultValue = "0") Integer from,
-                                        @Positive @RequestParam (defaultValue = "10") Integer size) {
+                                        @PositiveOrZero @RequestParam (defaultValue = "0") int from,
+                                        @Positive @RequestParam (defaultValue = "10") int size) {
 
         AdminEventsParamDto adminEventsParamDto = new AdminEventsParamDto(
                 users, states, categories, rangeStart, rangeEnd, from, size

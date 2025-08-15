@@ -79,7 +79,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventShortDto> getPrivateEvents(Long userId, Integer from, Integer size) {
+    public List<EventShortDto> getPrivateEvents(Long userId, int from, int size) {
         Page<Event> events = eventRepository.findEventByInitiator_Id(userId, PageRequest.of(from, size));
         List<EventShortDto> dtos = events.map(eventMapper::toEventShortDto).getContent();
 
