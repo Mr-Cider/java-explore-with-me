@@ -24,7 +24,7 @@
 
 	<modules>
 		<module>stat</module>
-		<module>ewm-service</module>
+		<module>ewm-main-service</module>
 	</modules>
 
 	<build>

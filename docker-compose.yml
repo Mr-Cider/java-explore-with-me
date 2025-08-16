@@ -38,11 +38,11 @@ services:
       retries: 20
       start_period: 10s
 
-  ewm-service:
+  ewm-main-service:
     build:
-      context: ./ewm-service
-    image: ewm-service
-    container_name: ewm-service
+      context: ./ewm-main-service
+    image: ewm-main-service
+    container_name: ewm-main-service
     ports:
       - "8080:8080"
     depends_on:

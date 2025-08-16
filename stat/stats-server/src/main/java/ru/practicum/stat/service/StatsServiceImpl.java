@@ -2,13 +2,13 @@ package ru.practicum.stat.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.stat.HitDto;
 import ru.practicum.stat.ViewStats;
 import ru.practicum.stat.ViewStatsRequest;
 import ru.practicum.stat.mapper.HitMapper;
 import ru.practicum.stat.model.EndpointHit;
 import ru.practicum.stat.repository.StatsRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
