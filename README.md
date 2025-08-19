@@ -1,4 +1,4 @@
-https://github.com/Mr-Cider/java-explore-with-me/pull/3
+https://github.com/Mr-Cider/java-explore-with-me/pull/4
 
 
 # Комментарии к событиям
