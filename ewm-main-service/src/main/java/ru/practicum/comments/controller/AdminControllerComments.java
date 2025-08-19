@@ -40,13 +40,13 @@ public class AdminControllerComments {
     }
 
     @GetMapping
-    public List<CommentDto> getComments( @RequestParam(required = false)
-                                         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
-                                         @RequestParam(required = false)
+    public List<CommentDto> getComments(@RequestParam(required = false)
+                                            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
+                                        @RequestParam(required = false)
                                          @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
-                                         @RequestParam(required = false) String text,
-                                         @RequestParam(defaultValue = "0") int from,
-                                         @RequestParam(defaultValue = "10") int size) {
+                                        @RequestParam(required = false) String text,
+                                        @RequestParam(defaultValue = "0") int from,
+                                        @RequestParam(defaultValue = "10") int size) {
         log.debug("GET admin/comments");
         log.info("Admin: Получение всех комментариев за определенный период времени");
         ParamCommentDto paramCommentDto = ParamCommentDto.builder()

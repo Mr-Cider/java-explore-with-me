@@ -1,6 +1,5 @@
 package ru.practicum.comments.service;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,13 +28,13 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
-    
+
     private final CommentMapper commentMapper;
-    
+
     private final UserRepository userRepository;
-    
+
     private final EventRepository eventRepository;
-    
+
     @Transactional
     @Override
     public CommentDto createComment(Long userId, Long eventId, NewCommentDto newCommentDto) {
@@ -113,19 +112,19 @@ public class CommentServiceImpl implements CommentService {
         );
         return comments.map(commentMapper::toCommentDto).getContent();
     }
-    
+
     private User getUserOrThrow(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> 
+        return userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException("User with id=" + userId + " was not found"));
     }
-    
+
     private Event getEventOrThrow(Long eventId) {
-        return eventRepository.findById(eventId).orElseThrow(() -> 
+        return eventRepository.findById(eventId).orElseThrow(() ->
                 new NotFoundException("Event with id=" + eventId + " was not found"));
     }
-    
-    private Comment getCommentByIdAndAuthorIdAndEventId(Long commentId, Long eventId, Long userId) {
-        return commentRepository.getByIdAndAuthor_IdAndEvent_Id(commentId, userId, eventId)
+
+    private Comment getCommentByIdAndAuthorIdAndEventId(Long commentId, Long authorId, Long eventId) {
+        return commentRepository.getByIdAndAuthor_IdAndEvent_Id(commentId, authorId, eventId)
                 .orElseThrow(() -> new NotFoundException("Comment with id=" + commentId + " was not found"));
     }
 
