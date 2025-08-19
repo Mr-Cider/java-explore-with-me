@@ -1,3 +1,5 @@
+https://github.com/Mr-Cider/java-explore-with-me/pull/3
+
 # Комментарии к событиям
 ## Основное
 ### Private:
