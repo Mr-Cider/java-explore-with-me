@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class ParamCommentDto {
-    LocalDateTime rangeStart;
+    private LocalDateTime rangeStart;
 
-    LocalDateTime rangeEnd;
+    private LocalDateTime rangeEnd;
 
-    String text;
+    private String text;
 }
