@@ -127,7 +127,6 @@ public class EventServiceImpl implements EventService {
                 : publicEventsParamDto.getSort();
         Sort sort = Sort.by(sortField);
         Pageable pageable = PageRequest.of(pageNumber, publicEventsParamDto.getSize(), sort);
-
         Page<Event> events = eventRepository.getEvents(
                 publicEventsParamDto.getText(),
                 categories != null && categories.isEmpty() ? null : categories,
